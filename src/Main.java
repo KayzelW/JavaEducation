@@ -1,26 +1,47 @@
 import java.util.Scanner;
 
 public class Main {
+    //Var 10
+
+
     public static void main(String[] args) {
-        double a, b, c, x;
-        var input = new Scanner(System.in);
+        var scanner = new Scanner(System.in);
 
-        System.out.println("Введите a,b,c,x через пробел:");
-        a = input.nextDouble();
-        b = input.nextDouble();
-        c = input.nextDouble();
-        x = input.nextDouble();
 
-        System.out.println(Calculate(a, b, c, x));
+//        double y = calculate(scanner.nextDouble()); //Task 1
+//        System.out.println("y = " + y); //Task 1
+        int y = calcFor(scanner.nextDouble(), scanner.nextInt()); //Task 2
+        System.out.printf("Функция выполнила %d итераций\n", y); //Task 2
     }
 
-    private static double Calculate(double a, double b, double c, double x) {
-        double result;
 
-        result = Math.sqrt(
-                (a * Math.pow(x, 3) + Math.atan(x)) / (c * x + b * Math.abs(Math.log(x)))
-        );
+    public static int calcFor(double x, int rows) {
+        int n = 1;
+        double sum = 0;
+        for (; n <= rows; n++) {
+            var temp = scaleByN(n) * Math.pow(x, n);
+            System.out.printf("Значение на этапе %d = %e\n", n, temp);
+            sum += temp;
+        }
+        System.out.printf("Общая сумма = %e\n", sum);
+        return n-1;
+    }
 
-        return result;
+    private static double scaleByN(int n) {
+        double subBracket = 0;
+        for (int i = 1; i <= n; i++) {
+            subBracket += 1.0 / i;
+        }
+        return Math.pow(-1, n - 1) * subBracket;
+    }
+
+    public static double calculate(double x) {
+        final double A = 1.0;
+        final double B = 2.0;
+        if (x <= 0) {
+            return Math.sqrt(Math.exp(2 * x - B)) - 1;
+        } else {
+            return 1 / (Math.pow(x, 2) + A);
+        }
     }
 }
