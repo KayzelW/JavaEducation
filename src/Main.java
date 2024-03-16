@@ -1,47 +1,45 @@
+import Library.BookTypes.Book;
+import Library.BookTypes.RegularBook;
+import Library.BookTypes.ComicBook;
+import Library.Library;
+import Library.Reader;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    //Var 10
-
 
     public static void main(String[] args) {
-        var scanner = new Scanner(System.in);
+        List<Book> books = new ArrayList<Book>();
+        books.add(new RegularBook("Программирование на Java", "Джон Смит", 2020, "Программирование", "Издательство1", "1234567890"));
+        books.add(new RegularBook("Python для начинающих", "Алиса Джонсон", 2019, "Программирование", "Издательство2", "0987654321"));
+        books.add(new ComicBook("Человек-паук: В мире паучьих вселенных", "Marvel Comics", 2018, "Супергерои", "Графический роман"));
 
+        List<Reader> readers = new ArrayList<Reader>();
+        readers.add(new Reader("Алиса", "1001"));
+        readers.add(new Reader("Боб", "1002"));
 
-//        double y = calculate(scanner.nextDouble()); //Task 1
-//        System.out.println("y = " + y); //Task 1
-        int y = calcFor(scanner.nextDouble(), scanner.nextInt()); //Task 2
-        System.out.printf("Функция выполнила %d итераций\n", y); //Task 2
-    }
+        Library library = new Library(books);
 
+        System.out.println("Все книги в библиотеке:");
+        library.displayAllBooks();
+        System.out.println();
 
-    public static int calcFor(double x, int rows) {
-        int n = 1;
-        double sum = 0;
-        for (; n <= rows; n++) {
-            var temp = scaleByN(n) * Math.pow(x, n);
-            System.out.printf("Значение на этапе %d = %e\n", n, temp);
-            sum += temp;
+        readers.get(0).borrowBook(books.get(0));
+        readers.get(1).borrowBook(books.get(1));
+
+        for (Reader reader : readers) {
+            reader.displayBorrowedBooks();
+            System.out.println();
         }
-        System.out.printf("Общая сумма = %e\n", sum);
-        return n-1;
-    }
 
-    private static double scaleByN(int n) {
-        double subBracket = 0;
-        for (int i = 1; i <= n; i++) {
-            subBracket += 1.0 / i;
-        }
-        return Math.pow(-1, n - 1) * subBracket;
-    }
+        readers.get(0).returnBook(books.get(0));
+        readers.get(1).returnBook(books.get(1));
 
-    public static double calculate(double x) {
-        final double A = 1.0;
-        final double B = 2.0;
-        if (x <= 0) {
-            return Math.sqrt(Math.exp(2 * x - B)) - 1;
-        } else {
-            return 1 / (Math.pow(x, 2) + A);
+        for (Reader reader : readers) {
+            System.out.println("После возврата книги:");
+            reader.displayBorrowedBooks();
         }
     }
 }
